@@ -4,6 +4,7 @@ How to rote traffic in docker by using haproxy
 ## flow
 
 ```
+                                 /
                                  /web1**  +------+
                                +--------->| app1 |
  +---------+    +----------+   |          +------+
