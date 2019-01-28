@@ -49,7 +49,7 @@ http :80/hostn
 }
 ```
 
-_tear sown_
+_tear down_
 
 ```bash
 docker-compose down -v
