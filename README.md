@@ -26,7 +26,7 @@ cd ../
 _run_
 
 ```bash
-docker-compose down -v ; docker-compose up --build --force-recreate --remove-orphans
+docker-compose up --build --force-recreate --remove-orphans
 ```
 
 _test_
@@ -46,4 +46,10 @@ http :80/hostn
 {
     "hostname": "27f78c8df6da"
 }
+```
+
+_tear sown_
+
+```bash
+docker-compose down -v
 ```
