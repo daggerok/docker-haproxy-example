@@ -1,0 +1,30 @@
+version: '2.1'
+services:
+  app1:
+    build: ./app
+    ports: ['8080']
+    networks:
+      my-domain.com:
+        aliases:
+          - app1
+          - app1.mydomain.com
+  app2:
+    build: ./app
+    ports: ['8080']
+    networks:
+      my-domain.com:
+        aliases:
+          - app2
+          - app2.mydomain.com
+  haproxy:
+    depends_on:
+      app1:
+        condition: service_healthy
+      app2:
+        condition: service_healthy
+    build: ./haproxy
+    networks: [my-domain.com]
+    ports: ['80:80']
+networks:
+  my-domain.com:
+    driver: bridge
