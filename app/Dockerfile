@@ -16,7 +16,6 @@ ENTRYPOINT java -Djava.net.preferIPv4Stack=true \
                 -jar ./app.jar
 CMD /bin/bash
 EXPOSE 8080
-HEALTHCHECK --timeout=2s \
-            --retries=22 \
+HEALTHCHECK --timeout=10s \
             CMD curl -f http://127.0.0.1:8080/ || exit 1
 COPY --chown=appuser ./target/*.jar ./app.jar

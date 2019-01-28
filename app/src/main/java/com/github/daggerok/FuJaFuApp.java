@@ -17,12 +17,14 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.InetAddress;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 import static org.springframework.fu.jafu.Jafu.webApplication;
 import static org.springframework.fu.jafu.r2dbc.H2R2dbcDsl.r2dbcH2;
@@ -100,26 +102,26 @@ class UserHandler {
                                                          .getHostName())
                                     .getOrElseGet(e -> defaultIdentifier.get());
 
-  static final Consumer<String> logIt = method ->
-      log.info(() -> format("calling %s on host: %s", method, hostname));
+  static final Consumer<List<String>> logIt = method ->
+      log.info(() -> format("host: %s calling: %s", hostname, method));
 
   final UserRepository repository;
 
   Mono<ServerResponse> host(ServerRequest request) {
-    logIt.accept("host");
+    logIt.accept(asList("host", request.uri().toString()));
     return ok().contentType(APPLICATION_JSON_UTF8)
                .body(Mono.just(singletonMap("hostname", hostname)), Map.class);
   }
 
   Mono<ServerResponse> add(ServerRequest request) {
-    logIt.accept("add");
+    logIt.accept(asList("add", request.uri().toString()));
     return accepted().contentType(APPLICATION_JSON_UTF8)
                      .body(request.bodyToMono(User.class)
                                   .flatMap(repository::save), User.class);
   }
 
   Mono<ServerResponse> get(ServerRequest request) {
-    logIt.accept("get");
+    logIt.accept(asList("get", request.uri().toString()));
     return ok().contentType(APPLICATION_JSON_UTF8)
                .body(repository.findAll(), User.class);
   }
