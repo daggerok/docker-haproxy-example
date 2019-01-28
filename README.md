@@ -19,9 +19,7 @@ How to rote traffic in docker by using haproxy
 _build_
 
 ```bash
-cd ./app
-./mvnw
-cd ../
+./mvnw -f app/pom.xml
 ```
 
 _run_
